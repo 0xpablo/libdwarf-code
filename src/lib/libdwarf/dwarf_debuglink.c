@@ -713,7 +713,7 @@ _dwarf_construct_linkedto_path(
     {
         struct dwarfstring_list_s *cur = 0;
         char        **resultfullstring = 0;
-        unsigned long count = 0;
+        unsigned      count = 0;
         size_t        pointerarraysize = 0;
         size_t        sumstringlengths = 0;
         size_t        totalareasize = 0;
