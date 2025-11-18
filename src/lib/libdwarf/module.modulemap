@@ -1,0 +1,5 @@
+module CLibdwarf [system] {
+    header "dwarf.h"
+    header "libdwarf.h"
+    export *
+}
