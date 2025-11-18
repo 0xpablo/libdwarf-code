@@ -33,6 +33,7 @@
 
 #include <stddef.h> /* NULL size_t */
 #include <stdio.h> /* debugging printf */
+#include <string.h> /* memcpy */
 
 #if defined(_WIN32) && defined(HAVE_STDAFX_H)
 #include "stdafx.h"
@@ -2311,4 +2312,20 @@ int dwarf_language_version_string(
     return dwarf_language_version_data(dw_lang_name,
         dw_default_lower_bound,
         dw_version_scheme);
+}
+
+int
+dwarf_object_get_uuid(Dwarf_Debug dbg, unsigned char *dw_uuid)
+{
+    if (IS_INVALID_DBG(dbg)) {
+        return DW_DLV_NO_ENTRY;
+    }
+    if (!dw_uuid) {
+        return DW_DLV_ERROR;
+    }
+    if (!dbg->de_obj_has_uuid) {
+        return DW_DLV_NO_ENTRY;
+    }
+    memcpy(dw_uuid, dbg->de_obj_uuid, 16);
+    return DW_DLV_OK;
 }

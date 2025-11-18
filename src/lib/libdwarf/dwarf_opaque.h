@@ -869,6 +869,9 @@ struct Dwarf_Debug_s {
     unsigned int   de_universalbinary_count;
     unsigned int   de_universalbinary_index;
 
+    unsigned char de_obj_uuid[16];  /* UUID from LC_UUID if present */
+    Dwarf_Small   de_obj_has_uuid;  /* 1 if UUID was found */
+
     unsigned char de_big_endian_object; /* Non-zero if
         object being read is big-endian. */
 
