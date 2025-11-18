@@ -347,7 +347,7 @@ resize_table(struct hs_base *head,
     int (*compar)(const void *, const void *))
 {
     struct hs_base newhead;
-    unsigned new_entry_index = 0;
+    unsigned long new_entry_index = 0;
     unsigned long prime_to_use = 0;
 
     /* Copy the values we have. */

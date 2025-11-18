@@ -139,7 +139,7 @@ dwarf_crc32 (Dwarf_Debug dbg,unsigned char *crcbuf,
         /*  Call the public API function so it gets tested too. */
         tcrc = (unsigned int)dwarf_basic_crc32(readbuf,
             (unsigned long)readlenu,
-            (unsigned long)init);
+            init);
         init = tcrc;
         size_left -= readlenu;
     }
