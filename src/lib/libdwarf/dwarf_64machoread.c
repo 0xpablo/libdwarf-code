@@ -87,13 +87,7 @@ _dwarf_load_macho_header64(dwarf_macho_object_access_internals_t *mfp,
     ASNAR(mfp->mo_copy_word,mfp->mo_header.flags,mh64.flags);
     ASNAR(mfp->mo_copy_word,mfp->mo_header.reserved,mh64.reserved);
     mfp->mo_command_count = (unsigned int)mfp->mo_header.ncmds;
-    res = _dwarf_uint64_mult(mfp->mo_header.sizeofcmds,
-        mfp->mo_command_count,&commandsizetotal);
-    if (res == DW_DLV_ERROR) {
-        /* overflow in multiply! */
-        *errcode = DW_DLE_MACHO_CORRUPT_HEADER;
-        return DW_DLV_ERROR;
-    }
+    commandsizetotal = mfp->mo_header.sizeofcmds;
     if (commandsizetotal >=  MAX_COMMANDS_SIZE ||
         commandsizetotal >= mfp->mo_filesize ) {
         *errcode = DW_DLE_MACHO_CORRUPT_HEADER;
