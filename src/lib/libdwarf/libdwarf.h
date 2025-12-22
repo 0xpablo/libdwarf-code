@@ -1807,16 +1807,19 @@ DW_API int dwarf_finish(Dwarf_Debug dw_dbg);
     call dwarf_dealloc_error even though
     the returned Dwarf_Debug is NULL.
 
-    @see jitreader
+    Since libdwarf is not reading the object directly
+    in this case it us up to the code actually reading
+    the object to check the object file for format and
+    do sufficient format-specific checks for correctness
+    and return DW_DLV_ERROR if object checks fail.
 
-    and  @see dw_noobject Reading DWARF not in object file
+    @see userobjread
+    src/bin/dwarfexample/jitreader.c
 
     @param dw_obj
     A data structure filled out by the caller so libdwarf
     can access DWARF data not in a supported object file format.
     @param dw_errhand
-    Pass in NULL normally.
-    @param dw_errarg
     Pass in NULL normally.
     @param dw_groupnumber
     The value passed in should be DW_GROUPNUMBER_ANY
@@ -5832,6 +5835,7 @@ DW_API int dwarf_get_macro_details(Dwarf_Debug dw_dbg,
     See DWARF5 Section 6.4 Call Frame Information,
     page 171.
 
+    see doc/checkexamples.c exampleq()
     @see exampleq
 
     The FDE array returned through dw_fde_data
@@ -8935,6 +8939,26 @@ DW_API int dwarf_get_harmless_error_list(Dwarf_Debug dw_dbg,
 DW_API unsigned int dwarf_set_harmless_error_list_size(
     Dwarf_Debug  dw_dbg,
     unsigned int dw_maxcount);
+
+/*!  @brief Enable or disable libdwarf tracking
+    of harmless errors. Harmless errors are
+    used by tools like dwarfdump. Disabling
+    harmless errors can improve performance by
+    avoiding string copies.
+    Defaults to enabled.
+
+    @param dw_dbg
+    Pass in an open Dwarf_Debug
+    @param dw_v
+    If zero passed in, harmless errors will not
+    be tracked and libdwarf will run somewhat faster
+    If non-zero passed in libdwarf will resume or
+    continue tracking harmless errors
+    @return
+    Returns the previous version of the flag.
+*/
+DW_API int dwarf_set_harmless_errors_enabled(Dwarf_Debug dw_dbg,
+    int dw_v);
 
 /*! @brief Harmless Error Insertion is only for testing
 

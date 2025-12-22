@@ -364,6 +364,8 @@ static void arg_print_strings(void);
 static void arg_print_types(void);
 static void arg_print_weaknames(void);
 
+static void arg_suppress_harmless(void);
+
 static void arg_no_follow_debuglink(void);
 static void arg_add_debuglink_path(void);
 static void arg_debuglink_path_invalid(void);
@@ -663,6 +665,9 @@ static const char *usage_long_text[] = {
 "                    dwarf_finish(). Used to test that",
 "                    dwarfdump does dealloc everywhere",
 "                    it should for minimum memory use.",
+"     --suppress-harmless-errors Turns off the libdwarf checks",
+"                    for harmless errors. Improves libdwarf",
+"                    performance.",
 "     --no-dup-attr-check Turns off libdwarf checking for",
 "                    duplicated compiler-emitted attributes",
 "                    in reading abbreviation data so duplicates",
@@ -711,6 +716,9 @@ OPT_CHECK_UNIQUE,             /* -kG  --check-unique        */
 OPT_CHECK_USAGE,              /* -ku  --check-usage         */
 OPT_CHECK_USAGE_EXTENDED,     /* -kuf --check-usage-extended*/
 OPT_CHECK_FUNCTIONS,          /*  --check-functions*/
+
+                              /* speeds up libdwarf to do this */
+OPT_SUPPRESS_HARMLESS,        /* --suppress-harmless-errors */
 
 /* File Specifications    */
 OPT_FILE_ABI,          /* -x abi=<abi>    --file-abi=<abi>     */
@@ -981,6 +989,7 @@ OPT_FORMAT_SUPPRESS_OFFSETS },
 {"trace", dwrequired_argument, 0, OPT_TRACE},
 
 {"suppress-de-alloc-tree",dwno_argument,0,OPT_ALLOC_TREE_OFF},
+{"suppress-harmless-errors",dwno_argument,0,OPT_SUPPRESS_HARMLESS},
 {0,0,0,0}
 };
 
@@ -1126,6 +1135,12 @@ void arg_format_producer(void)
 void arg_format_expr_ops_joined(void)
 {
     glflags.gf_expr_ops_joined = TRUE;
+}
+
+/* Option --suppress-harmless-errors */
+void arg_suppress_harmless(void)
+{
+    glflags.gf_suppress_harmless = TRUE;
 }
 /*  Option '-C' -format-extensions */
 void arg_format_extensions(void)
@@ -2693,6 +2708,7 @@ set_command_options(int argc, char *argv[])
                 things as they are rather than generating an error.*/
             arg_no_dup_attr_check(); break;
 
+        case OPT_SUPPRESS_HARMLESS: arg_suppress_harmless();break;
         case OPT_ALLOC_TREE_OFF:
             /*  Suppress nearly all libdwarf de_alloc_tree
                 record keeping. */
@@ -2892,8 +2908,19 @@ process_args(int argc, char *argv[])
     }
 
     if (glflags.gf_do_check_dwarf) {
-        /*  Reduce verbosity when checking
-            (checking means checking-only). */
+        if (glflags.verbose) {
+            /*  Specifically now set > 1 for
+                dd_check_attr_encoding.c
+                to know extra detail is wanted there.
+                Somewhat messy conflation of flags. */
+            glflags.gf_check_verbose_mode++;
+        }
+        /*  Set specific verbosity when checking
+            (checking means checking-only).
+            And ensure non-zero for error reporting CU/DIE
+            details during checking.
+            This affects how dd_check_attr_encoding.c
+            works. */
         glflags.verbose = 1;
     }
     return do_uri_translation(argv[dwoptind],"file-to-process");

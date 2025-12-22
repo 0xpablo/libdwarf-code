@@ -1303,6 +1303,21 @@ process_one_file(
 
     dbgsetup(dbg,l_config_file_data);
     dbgsetup(dbgtied,l_config_file_data);
+    /*  Speed things up by not checking for
+        harmless errors (in libdwarf).
+        As of 25 November 2025 disabled is
+        the default in libdwarf v2.2.1 :
+        dwarf_set_harmless_errors_enabled(dbgtied,0);
+        dwarf_set_harmless_errors_enabled(dbg,0); */
+    if (!glflags.gf_suppress_harmless) {
+         /*  This is the default in dwarfdump: check
+             for harmless errors. So we tell libdwarf
+             to check.  */
+         if (dbgtied) {
+             dwarf_set_harmless_errors_enabled(dbgtied,1);
+         }
+         dwarf_set_harmless_errors_enabled(dbg,1);
+    }
     dres = get_address_size_and_max(dbg,&elf_address_size,0,
         &onef_err);
     if (dres != DW_DLV_OK) {
@@ -2091,7 +2106,6 @@ should_skip_this_cu(Dwarf_Debug dbg, Dwarf_Bool*should_skip,
 
             } else if (sres == DW_DLV_ERROR) {
                 struct esb_s m;
-                int dwarf_names_print_on_error = 1;
 
                 dwarf_dealloc_attribute(attrib);
                 attrib = 0;
@@ -2099,8 +2113,7 @@ should_skip_this_cu(Dwarf_Debug dbg, Dwarf_Bool*should_skip,
                 esb_append(&m,"In determining if we should "
                     "skip this CU dwarf_formstring "
                     "gets an error on form ");
-                esb_append(&m,get_FORM_name(theform,
-                    dwarf_names_print_on_error));
+                esb_append(&m,get_FORM_name(theform));
                 esb_append(&m,".");
 
                 print_error_and_continue(

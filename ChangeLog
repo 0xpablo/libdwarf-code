@@ -1,3 +1,405 @@
+2025-12-16:  David Anderson
+    commit 822955dbf32b38e7d1a9e386115aee43c2d516cb
+
+    Altered git pull (last commit) to follow
+    the project coding standard of line length.
+            modified:   dwarf_die_deliv.c
+
+2025-12-16:  David Anderson
+    commit d189773aaddb6b3534a24679ba23b10303f325a6
+    Merge: c735260d c8e17f31
+
+    Merge branch 'COJIDAT-fix_apple_dwarf5_read'
+    Now allowing Apple to use a DW_AT_GNU attribute,
+    something new in latest Apple command line
+    compile tools.
+
+2025-12-16:  David Anderson
+    commit c8e17f31a9526ffc2fcc8193321f7c790466a9a7
+
+    Comments added on use of dwarf_object_init_b()
+            modified:   doc/libdwarf.dox
+            modified:   src/lib/libdwarf/libdwarf.h
+    Comments added about the null test added for
+    an incomplete user-written reader for
+    dwarf_object_init_b()
+            modified:   src/lib/libdwarf/dwarf_loclists.c
+
+2025-12-16:  David Anderson
+    commit df912e5e1050d76efec5d89b884f15e458496ef4
+    Merge: c735260d f63bb97a
+
+    Merge branch 'fix_apple_dwarf5_read' of https://github.com/COJIDAT/libdwarf-code into COJIDAT-fix_apple_dwarf5_read
+    Apple is now using a DW_AT_GNU attribute,
+    so we need to recognize that.
+
+2025-12-15:  Vladimir Gordeev
+    commit f63bb97ae0cfe0c61d382e1869d06402dee8d21c
+
+    remove invalid section
+
+2025-12-14:  Alex Petenchea
+    commit c735260d0a3c43d92195b1a66bcffdfcfeb0c2ce
+
+     Prevent a NULL deref in _dwarf_loclists_fill_in_lle_head (#312)
+
+    * Prevent a NULL deref in _dwarf_loclists_fill_in_lle_head() when thre is no loclists context
+
+    * Use project's code style
+
+2025-12-12:  Vladimir Gordeev
+    commit b0b8cead4bae6e59f3e56f77f7609e1620285231
+
+    Fix for Apple DWARF5
+
+2025-12-05:  David Anderson
+    commit 3c9f5f73a8c539624a6da0e9205cd153fce25ed3
+    Merge: 4eb2758b 2d1cdb75
+
+    Merge branch 'main' of https://github.com/davea42/libdwarf-code
+    Fixing PACKAGE_VERSION in cmake/config.h.in
+
+2025-12-05:  Peter Hill
+    commit 2d1cdb75baf1d652c5bda4e442ee06a13594c1da
+
+    Remove redefined `PACKAGE_VERSION` macro (#310)
+
+2025-12-05:  David Anderson
+    commit 4eb2758b2964d91d3d50b577de80277c90ac10f5
+
+    Automated update
+            modified:   bugxml/dwarfbug.html
+            modified:   bugxml/dwarfbuglohi.html
+
+2025-11-29:  David Anderson
+    commit c6fa84b355c40c92dc83a86a447c23e6eb76d3f0
+
+    Up to date.
+            modified:   ChangeLog
+
+2025-11-29:  David Anderson
+    commit 124ad31f5756f8d826fc9996da0b22c8b7eef616
+
+    Now adds dwarf_cfa_read.c to the build:
+            modified:   src/lib/libdwarf/CMakeLists.txt
+            modified:   src/lib/libdwarf/Makefile.am
+            modified:   src/lib/libdwarf/meson.build
+    Now with the long introductory comment.
+            modified:   src/lib/libdwarf/dwarf_cfa_read.c
+    Now with the code solely for _dwarf_exec_frame_instr()
+    completely removed.
+            modified:   src/lib/libdwarf/dwarf_frame.c
+
+2025-11-29:  David Anderson
+    commit d5aabec21b6c81eb4f31add73b8f95c02722a675
+
+    _dwarf_exec_frame_instr(Dwarf_Bool make_instr,
+    and
+    void _dwarf_init_reg_rules_ru(struct Dw
+    are now declared here, used in more than
+    one source file.
+            modified:   dwarf_frame.h
+
+2025-11-29:  David Anderson
+    commit a7c365e189cf208866dcc5bd3f86b2ea21378a23
+
+    Removed trailing whitespace.
+            modified:   src/lib/libdwarf/dwarf_die_deliv.c
+
+2025-11-29:  David Anderson
+    commit 85758c8ae13431c2fc17afdb6a44ed943f1f08b0
+
+    Adding explanatory comment.
+            modified:   ../../bin/dwarfexample/frame1.c
+
+    Removed _dwarf_exec_frame_instr() from
+    dwarf_frame.c and placed it here,
+    where it's easier to grasp and work with
+    (the overall control is at the beginning of
+    the file and ending control is at the end,
+    the middle is a giant switch statement
+    with all DW_CFA* listed).
+            new file:   dwarf_cfa_read.c
+
+2025-11-25:  David Anderson
+    commit 835cc216fda5283cd82f92495885790245e0f701
+
+    New option -suppress-harmless-errors so dwarfdump
+    can choose whether to do and report the harmless error checks.
+            modified:   src/bin/dwarfdump/dd_command_options.c
+    new flag gf_suppress_harmless default FALSE in dwarfdump.
+            modified:   src/bin/dwarfdump/dd_glflags.c
+    defines gf_suppress_harmless
+            modified:   src/bin/dwarfdump/dd_glflags.h
+    based on gf_suppress_harmless either lets libdwarf
+    default (ignore harmless) appy or calls
+    dwarf_set_harmless_errors_enabled(dbg,1)
+            modified:   src/bin/dwarfdump/dwarfdump.c
+
+2025-11-25:  David Anderson
+    commit 0d1760096059ae596a9052ee586028ab64a8b996
+
+    Now libdwarf defaults to not doing harmless_error checks
+            modified:   src/lib/libdwarf/dwarf_init_finish.c
+
+2025-11-25:  David Anderson
+    commit ba09ee4ed50977a1c1401858587c8e05bef512ad
+
+            modified:   doc/libdwarf.dox
+    Documented the addition of a function to the API.
+
+2025-11-25:  David Anderson
+    commit 95593d69a199d16d6e68fd8504683c9f72952d94
+
+    Now up to date with git log.
+            modified:   ChangeLog
+
+2025-11-25:  David Anderson
+    commit 932853446d4fd36690f87889a3ad4f62627098ed
+
+    In the previous commit some files had tab characters
+    so failed to pass dicheck (dicheck-code project
+    on github).
+    Changing to leading spaces instead of tabs
+    in a very few places fixed the issues.
+            modified:   src/lib/libdwarf/dwarf_arange.c
+            modified:   src/lib/libdwarf/dwarf_debugnames.c
+            modified:   src/lib/libdwarf/dwarf_die_deliv.c
+            modified:   src/lib/libdwarf/dwarf_harmless.c
+
+2025-11-25:  Ritesh Oedayrajsingh Varma
+    commit 238cf96c51e2ee59fa7cc96ee26661d7d514e33c
+
+    Added dwarf_set_harmless_errors_enabled API function (#309)
+
+    This can be used to disable harmless error tracking via
+    dwarf_insert_harmless_error. The cost of harmless error
+    tracking can be quite high, and is only needed for tests.
+
+The following files affected:
+    dwarf_arange.c:			dbg->de_harmless_errors_on) {
+    dwarf_debugnames.c:		dbg->de_harmless_errors_on) {
+    dwarf_die_deliv.c:          if (dbg->de_harmless_errors_on) {
+    dwarf_frame2.c:    if (mod != 0 && dbg->de_harmless_errors_on) {
+    dwarf_harmless.c:	int ov = dbg->de_harmless_errors_on;
+    dwarf_harmless.c:	dbg->de_harmless_errors_on = (char)v;
+    dwarf_init_finish.c:            dbg->de_harmless_errors_on = 1;
+
+
+2025-11-24:  David Anderson
+    commit 810ec4ee9e913f49a383953f48823912c2910df9
+
+    Now up to date with git log
+            modified:   ChangeLog
+
+2025-11-24:  David Anderson
+    commit 8fa096c577d56cf02886fae0b7e9be88a24c30bd
+
+    Clarified the report this creates with a few lines of text
+            modified:   src/bin/dwarfdump/dd_check_attr_encoding.c
+    Updated the setting of glflags.gf_check_verbose_mode
+    and glflags.verbose so the reporting by
+    dd_check_attr_encoding.c is the most useful data.
+            modified:   src/bin/dwarfdump/dd_command_options.c
+
+    Changed gf_check_verbose_mode from Dwarf_Bool to int
+    as we now need to allow it to have more selectivity.
+    For src/bin/dwarfdump/dd_check_attr_encoding.c
+            modified:   src/bin/dwarfdump/dd_glflags.h
+    Removed useless blank line.
+            modified:   src/bin/dwarfdump/dd_globals.h
+    Removed trailing whitespace.
+            modified:   src/bin/dwarfdump/dd_naming.h
+
+2025-11-24:  David Anderson
+    commit b0b039d8dae0cf1126b2b281ca97b20afc1c606d
+
+    removed one blank line where there were two.
+            modified:   src/bin/buildDW_LNAME/buildlname.c
+
+2025-11-24:  David Anderson
+    commit c383c8e1a04b45f3c162dac4d09d06652a7643b9
+
+    Messy string code is replaced by simple uses
+    of dwarfstring calls dwarfstring_constructor()
+    dwarfstring_destructor() and dwarfstring_append()
+    and dwarfstring_string() (source is in libdwarf).
+            modified:   src/bin/buildDW_LNAME/Makefile.am
+            modified:   src/bin/buildDW_LNAME/buildlname.c
+
+2025-11-22:  David Anderson
+    commit ed0b75dcbe851302c202a7782a7b87aa4e1e8ea5
+
+    By default avoids printing details about
+    use of leb instead of DW_FORM_data<n>
+    when doing checking (dwarfdump -ka for example).
+    But running dwarfdump with -v
+    as well as -ka shows each instance with
+    DWARF CHECK: DW_AT_decl_file: 3 wasted byte(s)
+    (3 is an example).
+            modified:   dd_check_attr_encoding.c
+            modified:   dd_command_options.c
+
+2025-11-22:  David Anderson
+    commit 409a86e6c7297481cc7b71c8b15889b707608e4c
+
+    Now up to date with git log
+            modified:   ChangeLog
+
+2025-11-21:  David Anderson
+    commit 22ca0cb47af5941fa51904c4d6b4593714e72f43
+
+    Here we are erasing technical debt: something that needed
+    doing to simplify maintenance.
+    All instances of
+    pd_dwarf_names_print_on_error
+    and instances of TRUE FALSE  or 1 or 0
+    passed to get_AT_name( or FORM or TAG etc)
+    have been removed as that flag value has not
+    been used for years.  Not wanted or needed.
+    Now gone.
+            modified:   src/bin/dwarfdump/dd_attr_form.c
+            modified:   src/bin/dwarfdump/dd_check_attr_encoding.c
+            modified:   src/bin/dwarfdump/dd_globals.h
+            modified:   src/bin/dwarfdump/dd_naming.c
+            modified:   src/bin/dwarfdump/dd_naming.h
+            modified:   src/bin/dwarfdump/dd_trace_abstract_origin_etc.c
+            modified:   src/bin/dwarfdump/dwarfdump.c
+            modified:   src/bin/dwarfdump/print_abbrevs.c
+            modified:   src/bin/dwarfdump/print_debug_gnu.c
+            modified:   src/bin/dwarfdump/print_die.c
+            modified:   src/bin/dwarfdump/print_frames.c
+            modified:   src/bin/dwarfdump/print_macro.c
+            modified:   src/bin/dwarfdump/print_sections.c
+
+2025-11-21:  David Anderson
+    commit 9a95763b9eaa9bd745932121a7b540bd550e6c74
+
+    Here we are erasing technical debt: something that needed
+    doing to simplify maintenance.
+    Adding src/bin/dwarfdump/dd_check_attr_encoding.c to
+    the build. It is composed of lines removed
+    from print_die.c to make certain updates easier.
+            modified:   src/bin/dwarfdump/CMakeLists.txt
+            modified:   src/bin/dwarfdump/Makefile.am
+            modified:   src/bin/dwarfdump/meson.build
+
+    Needed one global function definition for things
+    to link after moving code to
+    src/bin/dwarfdump/dd_check_attr_encoding.c.
+            modified:   src/bin/dwarfdump/dd_globals.h
+
+    Removed some code.
+            modified:   src/bin/dwarfdump/print_die.c
+    Old code, now in new file.
+            new file:   src/bin/dwarfdump/dd_check_attr_encoding.c
+
+2025-11-17:  David Anderson
+    commit b1af413b8e283aa42594e71d9a531547b359bed6
+
+    Removes an implied conversion by
+    using explicit cast. Fix VS warning.
+            modified:   print_die.c
+
+2025-11-16:  David Anderson
+    commit 74a39d1512c652f0905a520959861dbd39c62a74
+
+    In case there is a strangeness in a TAG relative
+    to it's having possible children report the details
+    in detail to give a clue what the -ki report
+    is about.
+            modified:   src/bin/dwarfdump/print_die.c
+
+2025-11-16:  David Anderson
+    commit b30ed8ea74c849f593e1df55b13b8c47fc4beb6f
+
+    Corrected a typo in a comment.
+            modified:   src/lib/libdwarf/dwarf_query.c
+
+2025-11-16:  David Anderson
+    commit b29d558435d1b09cc9a21810e404b95be2a6b365
+
+    Added appropriate uses of combinations used in
+    DWARF from a Go compiler to the sets of known uses.
+            modified:   src/bin/attr_form/attr_formclass_ext.list
+            modified:   src/bin/tag_attr/tag_attr.list
+            modified:   src/bin/tag_attr/tag_attr_ext.list
+
+    Regenerated the tables dwarfdump uses to check for known uses.
+            modified:   src/bin/dwarfdump/dwarfdump-af-table-ext.h
+            modified:   src/bin/dwarfdump/dwarfdump-ta-ext-table.h
+            modified:   src/bin/dwarfdump/dwarfdump-ta-table.h
+
+2025-11-16:  David Anderson
+    commit e07b07fc3d45f37b789e0f635ad0e2e85ceafced
+
+    Fixing indents, two places.
+            modified:   src/bin/dwarfdump/print_ranges.c
+
+2025-11-16:  David Anderson
+    commit eba2baf906f910d740f29d4abe2d3984940a22d8
+
+    Added essential detail to a DWARF CHECK ( -ka)
+    warning about a die-children flag. Exposed
+    an omission in a switch() stmt, around line 1878
+            modified:   src/bin/dwarfdump/print_die.c
+
+2025-11-16:  David Anderson
+    commit 561965146a4179b7260aaaebdb91afb65f6d2320
+
+    Added comment on #endif #else for clarity.
+            modified:   src/bin/dwarfdump/dd_naming.c
+
+2025-11-16:  David Anderson
+    commit 1b5af5767e5815f33b19fb80516e5b8ce27f3545
+
+    Removed an unused local variable.
+            modified:   src/bin/checkDW_LANG/checklangname.c
+
+2025-11-15:  David Anderson
+    commit 6f3341bc01bac25f28ca8e030a7058e5777a7bf5
+
+    Now says percent rather than expecting reader to know
+    this common English percent (%) symbol.
+            modified:   ../dwarfdump/print_die.c
+
+2025-11-15:  David Anderson
+    commit a3a6c3aa823f953244aba894e7dd0d33eac37c34
+
+    Regenerated via 'make rebuild' for the new Go extension attributes.
+            modified:   src/bin/dwarfdump/dwarfdump-af-table-ext.h
+            modified:   src/bin/dwarfdump/dwarfdump-af-table-std.h
+            modified:   src/lib/libdwarf/dwarf_names.c
+
+2025-11-15:  David Anderson
+    commit 6c650f508b3aa4600bc63a2b5f3e24047fd03ff3
+
+    Now with a largef set of DW_AT_go attribute names.
+    Complete according to Go documentation on the web.
+            modified:   src/lib/libdwarf/dwarf.h
+
+2025-11-15:  David Anderson
+    commit 82eadc2843df37e5c74dbb69a8a0441f781396fa
+
+    DW_AT_go* uses AT/FORM CLASS relationships not noted before.
+    Now expected.
+            modified:   src/bin/attr_form/attr_formclass.list
+            modified:   src/bin/attr_form/attr_formclass_ext.list
+
+2025-11-03:  David Anderson
+    commit 5d02b24fd27752a2517b8be1da09a364199dbc39
+
+    Normal monthly change in current month in
+    vulnerability data.
+            modified:   bugxml/dwarfbug.html
+            modified:   bugxml/dwarfbuglohi.html
+
+2025-10-28:  David Anderson
+    commit 6cfdca92f5578c181d09b698252e9052bc940d19
+
+    Now up to date.
+            modified:   ChangeLog
+
 2025-10-28:  David Anderson
     commit 074128be4eb9a6f96c0dc2172ce889cc715c378c
 
