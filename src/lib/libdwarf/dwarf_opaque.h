@@ -866,6 +866,9 @@ struct Dwarf_Debug_s {
     unsigned int   de_universalbinary_count;
     unsigned int   de_universalbinary_index;
 
+    unsigned char de_obj_uuid[16];  /* UUID from LC_UUID if present */
+    Dwarf_Small   de_obj_has_uuid;  /* 1 if UUID was found */
+
     /*  If zero these are not validated and must be validated.
         See _dwarf_validate_register_numbers() */
     unsigned char  de_frame_numbers_validated;

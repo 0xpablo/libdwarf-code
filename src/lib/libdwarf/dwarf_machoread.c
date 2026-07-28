@@ -488,6 +488,46 @@ load_segment_command_content32(
 }
 
 static int
+load_uuid_command(
+    dwarf_macho_object_access_internals_t *mfp,
+    struct generic_macho_command *mmp,
+    int *errcode)
+{
+    struct uuid_command uc;
+    int res = 0;
+    Dwarf_Unsigned filesize = mfp->mo_filesize;
+    Dwarf_Unsigned uuidoffset = mmp->offset_this_command;
+    Dwarf_Unsigned inner = mfp->mo_inner_offset;
+    Dwarf_Unsigned fullstart = 0;
+    Dwarf_Unsigned fullend = 0;
+
+    if (uuidoffset > filesize ||
+        mmp->cmdsize < sizeof(uc) ||
+        mmp->cmdsize > (filesize - uuidoffset)) {
+        *errcode = DW_DLE_MACHO_CORRUPT_COMMAND;
+        return DW_DLV_ERROR;
+    }
+    fullstart = inner + uuidoffset;
+    fullend = inner + filesize;
+    if (fullstart < inner ||
+        fullstart < uuidoffset ||
+        fullend < inner ||
+        fullend < filesize) {
+        *errcode = DW_DLE_ARITHMETIC_OVERFLOW;
+        return DW_DLV_ERROR;
+    }
+    res = RRMOA(mfp->mo_fd, &uc, fullstart,
+        sizeof(uc), fullend, errcode);
+    if (res != DW_DLV_OK) {
+        return res;
+    }
+
+    memcpy(mfp->mo_uuid, uc.uuid, sizeof(mfp->mo_uuid));
+    mfp->mo_has_uuid = 1;
+    return DW_DLV_OK;
+}
+
+static int
 _dwarf_macho_load_segment_commands(
     dwarf_macho_object_access_internals_t *mfp,int *errcode)
 {
@@ -537,6 +577,8 @@ _dwarf_macho_load_segment_commands(
             res = _dwarf_load_segment_command_content64(mfp,mmp,msp,
                 i,errcode);
             ++msp;
+        } else if (cmd == LC_UUID) {
+            res = load_uuid_command(mfp,mmp,errcode);
         } else { /* fall through, not a command of interest */ }
         if (res != DW_DLV_OK) {
             free(mfp->mo_segment_commands);
@@ -899,6 +941,11 @@ _dwarf_macho_setup(int fd,
     intfc->mo_path = strdup(true_path);
     (*dbg)->de_obj_flags = intfc->mo_flags;
     (*dbg)->de_obj_machine = intfc->mo_machine;
+    if (intfc->mo_has_uuid) {
+        memcpy((*dbg)->de_obj_uuid, intfc->mo_uuid,
+            sizeof((*dbg)->de_obj_uuid));
+        (*dbg)->de_obj_has_uuid = 1;
+    }
     (*dbg)->de_universalbinary_index = universalnumber;
     (*dbg)->de_universalbinary_count = universalbinary_count;
     return res;

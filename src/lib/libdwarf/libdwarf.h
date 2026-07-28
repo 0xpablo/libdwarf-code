@@ -9780,6 +9780,24 @@ DW_API int dwarf_machine_architecture(Dwarf_Debug dw_dbg,
     Dwarf_Unsigned *dw_ub_index,
     Dwarf_Unsigned *dw_comdat_groupnumber);
 
+/*! @brief Get UUID from Mach-O binaries (LC_UUID).
+
+    Extracts the UUID from a Mach-O binary's LC_UUID load command.
+    This supports matching binaries with their dSYMs in
+    symbolication workflows.
+
+    @param dw_dbg
+    The Dwarf_Debug of interest.
+    @param dw_uuid
+    A pointer to 16 bytes where the UUID will be copied.
+    @return
+    Returns DW_DLV_OK on success.
+    Returns DW_DLV_NO_ENTRY if no UUID is present or dw_dbg is invalid.
+    Returns DW_DLV_ERROR if dw_uuid is NULL.
+*/
+DW_API int dwarf_object_get_uuid(Dwarf_Debug dw_dbg,
+    unsigned char *dw_uuid);
+
 /*! @brief Get section count (of object file sections).
 
     Return the section count. Returns 0 if the

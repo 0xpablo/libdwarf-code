@@ -157,6 +157,9 @@ typedef struct dwarf_macho_filedata_s {
 
     Dwarf_Unsigned mo_dwarf_sectioncount;
     struct generic_macho_section *mo_dwarf_sections;
+
+    unsigned char mo_uuid[16];  /* LC_UUID data if present */
+    Dwarf_Small   mo_has_uuid;  /* 1 if UUID was found, 0 otherwise */
 } dwarf_macho_object_access_internals_t;
 
 int _dwarf_load_macho_header(
