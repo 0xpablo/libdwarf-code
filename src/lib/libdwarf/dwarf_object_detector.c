@@ -322,7 +322,7 @@ is_pe_object(int fd,
     unsigned *offsetsize,
     int *errcode)
 {
-    unsigned dos_sig = 0;
+    unsigned long dos_sig = 0;
     unsigned locendian = 0;
     void (*word_swap) (void *, const void *, unsigned long);
     unsigned long nt_address = 0;
