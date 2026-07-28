@@ -38,8 +38,10 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     Macho object commands is a hard limit kernel in iOS, but
     we have real non-iOS objects needing a bigger command
     space (one having 22848 bytes):
-    regressiontests/macho-kask/dd64copy.macho  */
-#define MAX_COMMANDS_SIZE  30000
+    regressiontests/macho-kask/dd64copy.macho
+    Modern macOS binaries, especially Swift programs with many dylib
+    dependencies, commonly have 100KB+ of Mach-O load commands. */
+#define MAX_COMMANDS_SIZE  262144
 
 struct Dwarf_Universal_Arch_s;
 struct Dwarf_Universal_Head_s {
